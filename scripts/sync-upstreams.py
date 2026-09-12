@@ -3,7 +3,6 @@
 Multi-Upstream Synchronization and Autonomous Rewrite Engine for Gemini & Antigravity Skills.
 
 Tracks upstream sources:
-  - Google Skills (google/skills)
   - Superpowers (obra/superpowers)
   - Andrej Karpathy Skills (forrestchang/andrej-karpathy-skills)
   - I Have ADHD (ayghri/i-have-adhd)
@@ -201,11 +200,6 @@ def cmd_rewrite():
             content = content.replace("claude plugin install", "agy plugin install")
             content = content.replace("CLAUDE.md", "AGENTS.md")
             content = content.replace("CURSOR.md", "AGENTS.md")
-
-            # Provider alignment for Genkit
-            if "developing-genkit" in str(p):
-                content = content.replace("&anthropic.Anthropic{}", "&googlegenai.VertexAI{}")
-                content = content.replace("`genkit-anthropic`, ", "")
 
             if content != orig:
                 p.write_text(content, encoding="utf-8")
