@@ -32,12 +32,6 @@ BOLD = "\033[1m"
 RESET = "\033[0m"
 
 UPSTREAMS = {
-    "google": {
-        "remote": "upstream-google",
-        "url": "https://github.com/google/skills.git",
-        "branch": "main",
-        "category_dest": "skills",  # merged directly into skills/{cloud,developers,ads,...}
-    },
     "superpowers": {
         "remote": "upstream-superpowers",
         "url": "https://github.com/obra/superpowers.git",
@@ -265,15 +259,7 @@ def cmd_sync():
     print(f"\n{BOLD}{BLUE}Syncing upstream skill sources...{RESET}")
     cmd_fetch()
 
-    # 1. Sync Google Skills
-    try:
-        run_cmd(["git", "merge", "upstream-google/main", "--no-edit", "-m", "chore(upstream): merge latest upstream-google/main"])
-        print(f"  {GREEN}✓ Google skills merged.{RESET}")
-    except Exception:
-        print(f"  {YELLOW}Note: google merge resulted in conflict or was already up-to-date.{RESET}")
-        run_cmd(["git", "merge", "--abort"], check=False)
-
-    # 2. Sync Superpowers
+    # 1. Sync Superpowers
     # Check if upstream-superpowers has new commits in skills/
     try:
         diff_files = run_cmd(["git", "diff", "--name-only", "HEAD..upstream-superpowers/main", "--", "skills/"]).stdout.split()
