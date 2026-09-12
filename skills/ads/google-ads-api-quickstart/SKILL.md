@@ -245,7 +245,7 @@ Instead, read the detailed setup guide:
 
 > [!TIP]
 > **AI Assistant / MCP Integration Handoff:**
-> If the goal is to connect an **AI Assistant** (such as Gemini, Cursor, or Claude Code) to query Google Ads via natural language:
+> If the goal is to connect an **AI Assistant** (such as Gemini, Cursor, or Antigravity CLI) to query Google Ads via natural language:
 > 1. **DO NOT** write custom scripts or client library code.
 > 2. **STOP** executing this skill.
 > 3. **Transition Immediately** to the **`google-ads-api-mcp-setup`** skill to install and configure the official Google Ads Model Context Protocol (MCP) Server.

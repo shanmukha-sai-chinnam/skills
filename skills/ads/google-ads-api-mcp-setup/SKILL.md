@@ -1,6 +1,6 @@
 ---
 name: google-ads-api-mcp-setup
-description: Guides developers through downloading, configuring, and installing the official open-source Google Ads MCP Server. Use this skill when a user wants to connect their AI assistant (such as Gemini, Claude Code, or Cursor) to their Google Ads account to query campaigns or retrieve reporting metrics using natural language.
+description: Guides developers through downloading, configuring, and installing the official open-source Google Ads MCP Server. Use this skill when a user wants to connect their AI assistant (such as Gemini, Antigravity CLI, or Cursor) to their Google Ads account to query campaigns or retrieve reporting metrics using natural language.
 compatibility: Python 3.12+, pipx
 metadata:
   author: google-ads-api-team
@@ -214,11 +214,11 @@ To protect credential security, **do not recommend hardcoding credentials inside
 
 Connect the Google Ads MCP Server to your chosen AI coding environment using one of the integrations below.
 
-### 1. Claude Desktop (or Claude Code CLI)
+### 1. Claude Desktop (or Antigravity CLI CLI)
 
 > [!IMPORTANT]
 > **Mandatory Agent Directive (Claude Desktop Configuration Checklist):**
-> When a user asks how to configure Claude Desktop or Claude Code to use the Google Ads MCP server, your response **MUST** systematically include all of the following:
+> When a user asks how to configure Claude Desktop or Antigravity CLI to use the Google Ads MCP server, your response **MUST** systematically include all of the following:
 > 1. [ ] **Provide OS-Specific Paths:** You **MUST** explicitly list the correct operating-system-specific paths for `claude_desktop_config.json` on **macOS** (`~/Library/Application Support/Claude/claude_desktop_config.json`) and **Windows** (`%APPDATA%\Claude\claude_desktop_config.json`). Do not omit macOS or Windows paths even if running on Linux.
 > 2. [ ] **Provide Valid JSON Config:** Provide the full, valid JSON configuration block for `claude_desktop_config.json`.
 > 3. [ ] **Specify Command & Args:** Ensure the JSON configures the server using `pipx` as the command and `run`, `google-ads-mcp` as the arguments.
