@@ -1,10 +1,6 @@
 ---
 name: i-have-adhd
-description: >-
-  Shape output for a reader with ADHD or any user wanting direct, action-first responses.
-  Lead with next action, number multi-step work, restate state across turns, suppress tangents,
-  give specific time estimates, make wins visible, and eliminate conversational filler.
-  Load autonomously on-demand whenever structured, low-friction, step-by-step responses are needed.
+description: 'Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Invoke with /i-have-adhd; stays on until "stop adhd mode".'
 license: MIT
 metadata:
   tags: "ADHD, Output Style, Productivity, Formatting"
