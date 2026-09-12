@@ -254,22 +254,24 @@ def cmd_sync():
     cmd_fetch()
 
     # 1. Sync Superpowers
-    # Check if upstream-superpowers has new commits in skills/
     try:
-        diff_files = run_cmd(["git", "diff", "--name-only", "HEAD..upstream-superpowers/main", "--", "skills/"]).stdout.split()
-        if diff_files:
-            print(f"  Syncing {len(diff_files)} changed superpowers files...")
-            for f in diff_files:
-                if f.startswith("skills/"):
-                    sub_path = f[len("skills/"):]
-                    skill_name = sub_path.split("/")[0]
-                    if skill_name in INCOMPATIBLE_SUPERPOWERS_SKILLS:
-                        continue
-                    src_content = run_cmd(["git", "show", f"upstream-superpowers/main:{f}"]).stdout
-                    dest_file = REPO_ROOT / "skills" / "superpowers" / sub_path
-                    dest_file.parent.mkdir(parents=True, exist_ok=True)
-                    dest_file.write_text(src_content, encoding="utf-8")
-            print(f"  {GREEN}✓ Superpowers synced.{RESET}")
+        upstream_files = run_cmd(["git", "ls-tree", "-r", "--name-only", "upstream-superpowers/main", "skills/"]).stdout.split()
+        synced_count = 0
+        for f in upstream_files:
+            if not f.startswith("skills/"):
+                continue
+            sub_path = f[len("skills/"):]
+            skill_name = sub_path.split("/")[0]
+            if skill_name in INCOMPATIBLE_SUPERPOWERS_SKILLS or skill_name in ["adhd", "karpathy", "superpowers"]:
+                continue
+            dest_file = REPO_ROOT / "skills" / "superpowers" / sub_path
+            src_content = run_cmd(["git", "show", f"upstream-superpowers/main:{f}"]).stdout
+            if not dest_file.exists() or dest_file.read_text(encoding="utf-8", errors="replace") != src_content:
+                dest_file.parent.mkdir(parents=True, exist_ok=True)
+                dest_file.write_text(src_content, encoding="utf-8")
+                synced_count += 1
+        if synced_count > 0:
+            print(f"  {GREEN}✓ Superpowers synced ({synced_count} files updated).{RESET}")
         else:
             print(f"  {GREEN}✓ Superpowers already up-to-date.{RESET}")
     except Exception as e:
@@ -277,16 +279,18 @@ def cmd_sync():
 
     # 2. Sync Karpathy
     try:
-        diff_k = run_cmd(["git", "diff", "--name-only", "HEAD..upstream-karpathy/main", "--", "skills/karpathy-guidelines/"]).stdout.split()
-        if diff_k:
-            print(f"  Syncing {len(diff_k)} changed Karpathy guidelines files...")
-            for f in diff_k:
-                src_content = run_cmd(["git", "show", f"upstream-karpathy/main:{f}"]).stdout
-                sub_path = f[len("skills/karpathy-guidelines/"):] if f.startswith("skills/karpathy-guidelines/") else Path(f).name
-                dest_file = REPO_ROOT / "skills" / "karpathy" / "karpathy-guidelines" / sub_path
+        upstream_files_k = run_cmd(["git", "ls-tree", "-r", "--name-only", "upstream-karpathy/main", "skills/karpathy-guidelines/"]).stdout.split()
+        synced_count_k = 0
+        for f in upstream_files_k:
+            sub_path = f[len("skills/karpathy-guidelines/"):] if f.startswith("skills/karpathy-guidelines/") else Path(f).name
+            dest_file = REPO_ROOT / "skills" / "karpathy" / "karpathy-guidelines" / sub_path
+            src_content = run_cmd(["git", "show", f"upstream-karpathy/main:{f}"]).stdout
+            if not dest_file.exists() or dest_file.read_text(encoding="utf-8", errors="replace") != src_content:
                 dest_file.parent.mkdir(parents=True, exist_ok=True)
                 dest_file.write_text(src_content, encoding="utf-8")
-            print(f"  {GREEN}✓ Karpathy guidelines synced.{RESET}")
+                synced_count_k += 1
+        if synced_count_k > 0:
+            print(f"  {GREEN}✓ Karpathy guidelines synced ({synced_count_k} files updated).{RESET}")
         else:
             print(f"  {GREEN}✓ Karpathy guidelines already up-to-date.{RESET}")
     except Exception as e:
@@ -294,16 +298,18 @@ def cmd_sync():
 
     # 3. Sync ADHD
     try:
-        diff_adhd = run_cmd(["git", "diff", "--name-only", "HEAD..upstream-adhd/main", "--", "skills/i-have-adhd/"]).stdout.split()
-        if diff_adhd:
-            print(f"  Syncing {len(diff_adhd)} changed i-have-adhd files...")
-            for f in diff_adhd:
-                src_content = run_cmd(["git", "show", f"upstream-adhd/main:{f}"]).stdout
-                sub_path = f[len("skills/i-have-adhd/"):] if f.startswith("skills/i-have-adhd/") else Path(f).name
-                dest_file = REPO_ROOT / "skills" / "adhd" / "i-have-adhd" / sub_path
+        upstream_files_adhd = run_cmd(["git", "ls-tree", "-r", "--name-only", "upstream-adhd/main", "skills/i-have-adhd/"]).stdout.split()
+        synced_count_adhd = 0
+        for f in upstream_files_adhd:
+            sub_path = f[len("skills/i-have-adhd/"):] if f.startswith("skills/i-have-adhd/") else Path(f).name
+            dest_file = REPO_ROOT / "skills" / "adhd" / "i-have-adhd" / sub_path
+            src_content = run_cmd(["git", "show", f"upstream-adhd/main:{f}"]).stdout
+            if not dest_file.exists() or dest_file.read_text(encoding="utf-8", errors="replace") != src_content:
                 dest_file.parent.mkdir(parents=True, exist_ok=True)
                 dest_file.write_text(src_content, encoding="utf-8")
-            print(f"  {GREEN}✓ i-have-adhd synced.{RESET}")
+                synced_count_adhd += 1
+        if synced_count_adhd > 0:
+            print(f"  {GREEN}✓ i-have-adhd synced ({synced_count_adhd} files updated).{RESET}")
         else:
             print(f"  {GREEN}✓ i-have-adhd already up-to-date.{RESET}")
     except Exception as e:
