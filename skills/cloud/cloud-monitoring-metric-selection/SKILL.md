@@ -46,12 +46,8 @@ and filters them locally inside the agent's context using keyword matching.
     points to: **`https://monitoring.googleapis.com/mcp`**.
 3.  If the tool is **missing**:
 
-    *   Locate the MCP configuration file for the user's environment. Check
-        common paths:
+    *   Locate the MCP configuration file for the user's environment:
         -   `~/.gemini/config/mcp_config.json`
-        -   `~/.codeium/windsurf/mcp_config.json`
-        -   `cline_mcp_settings.json`
-        -   `claude_desktop_config.json`
     *   Directly update/merge the configuration file with the following server
         configuration. **CRITICAL**: Merge the JSON object to preserve any
         existing MCP servers in `mcpServers`. Do not overwrite the file.

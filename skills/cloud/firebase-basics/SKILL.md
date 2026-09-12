@@ -31,14 +31,6 @@ Complete these setup steps before proceeding:
             [references/setup/antigravity.md](references/setup/antigravity.md)
         -   **Android Studio**: Review
             [references/setup/android_studio.md](references/setup/android_studio.md)
-        -   **Antigravity CLI**: Review
-            [references/setup/claude_code.md](references/setup/claude_code.md)
-        -   **Cursor**: Review
-            [references/setup/cursor.md](references/setup/cursor.md)
-        -   **GitHub Copilot**: Review
-            [references/setup/github_copilot.md](references/setup/github_copilot.md)
-        -   **Other Agents**: Review
-            [references/setup/other_agents.md](references/setup/other_agents.md)
 
 1.  **Authentication:** Ensure you are logged in to Firebase so that commands
     have the correct permissions. Run `npx -y firebase-tools@latest login`. For
@@ -108,14 +100,8 @@ Adhere to these principles:
         [references/refresh/antigravity.md](references/refresh/antigravity.md)
     -   **Gemini CLI**: Follow
         [references/refresh/gemini-cli.md](references/refresh/gemini-cli.md)
-    -   **Antigravity CLI**: Follow
-        [references/refresh/claude.md](references/refresh/claude.md)
-    -   **Cursor**: Follow
-        [references/refresh/other-agents.md](references/refresh/other-agents.md)
     -   **Android Studio**: Follow
         [references/refresh/android_studio.md](references/refresh/android_studio.md)
-    -   **Others**: Follow
-        [references/refresh/other-agents.md](references/refresh/other-agents.md)
 1.  **Automate Config File Retrieval:** When setting up iOS or Android apps, do
     NOT direct users to the Firebase Console to download `google-services.json`
     or `GoogleService-Info.plist`. Instead, use the Firebase CLI to fetch the

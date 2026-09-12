@@ -49,12 +49,9 @@ Add it to your MCP client as an HTTP server. Because Google Cloud's remote MCP
 servers require IAM authentication, you must configure client-side credentials
 or headers (such as an OAuth 2.0 access token). Follow the
 [Configure MCP in an AI application](https://docs.cloud.google.com/mcp/configure-mcp-ai-application)
-guide for client-specific setup instructions (such as Claude Desktop, Claude
-Code, or Gemini CLI).
+guide for client-specific setup instructions (such as Antigravity or Gemini CLI).
 
-For example, to manually configure Claude Code using a temporary access token,
-place this in your client configuration (e.g. `.mcp.json` or
-`~/.claude/mcp_servers.json`):
+For example, to configure using a temporary access token, place this in your client configuration (e.g. `~/.gemini/config/mcp_config.json`):
 
 ```json
 {
@@ -155,8 +152,7 @@ full set of bucket and object operations.
     gcloud auth application-default login
     ```
 
-3.  **Add it to your MCP client.** For example, in a Claude Code `.mcp.json`
-    (the same `command`/`args` work for other clients such as Gemini CLI):
+3.  **Add it to your MCP client.** For example, in `~/.gemini/config/mcp_config.json`:
 
     ```json
     {

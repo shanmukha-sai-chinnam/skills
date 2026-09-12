@@ -1,6 +1,6 @@
 ---
 name: google-ads-api-mcp-setup
-description: Guides developers through downloading, configuring, and installing the official open-source Google Ads MCP Server. Use this skill when a user wants to connect their AI assistant (such as Gemini, Antigravity CLI, or Cursor) to their Google Ads account to query campaigns or retrieve reporting metrics using natural language.
+description: Guides developers through downloading, configuring, and installing the official open-source Google Ads MCP Server. Use this skill when a user wants to connect their AI assistant (such as Gemini or Antigravity) to their Google Ads account to query campaigns or retrieve reporting metrics using natural language.
 compatibility: Python 3.12+, pipx
 metadata:
   author: google-ads-api-team
@@ -157,7 +157,7 @@ If `google-ads-mcp --help` fails with a "command not found" error:
 
 #### Key points to explain to the user regarding Stdio Transport:
 
-*   **Subprocess Execution:** The host client (e.g., Cursor, Claude Desktop) launches the MCP server as a background subprocess.
+*   **Subprocess Execution:** The host client (e.g., Antigravity, Gemini CLI) launches the MCP server as a background subprocess.
 *   **Command-Line Launch:** The host client must be configured with the exact command to run the server (`google-ads-mcp`) and the environment variables containing your Google Ads credentials.
 *   **No Network Ports:** Because it uses `stdio`, the server does not listen on a network port (like HTTP or WebSockets). Communication is handled entirely via stdin/stdout piping.
 
@@ -170,7 +170,7 @@ If `google-ads-mcp --help` fails with a "command not found" error:
 
 The Google Ads MCP Server reads your credentials via system environment variables. You can configure these in two ways:
 
-*   **Method A (Recommended):** Pass them directly in the MCP client's JSON configuration file (e.g., Cursor or Claude Desktop settings). This isolates the credentials to the specific tool.
+*   **Method A (Recommended):** Pass them directly in the MCP client's JSON configuration file (e.g., `~/.gemini/config/mcp_config.json` or Antigravity IDE settings). This isolates the credentials to the specific tool.
 *   **Method B (Alternative):** Set them globally in your shell profile (e.g., `~/.bashrc`, `~/.zshrc`, or Windows Environment Variables).
 
 ### Required Environment Variables
@@ -214,25 +214,11 @@ To protect credential security, **do not recommend hardcoding credentials inside
 
 Connect the Google Ads MCP Server to your chosen AI coding environment using one of the integrations below.
 
-### 1. Claude Desktop (or Antigravity CLI CLI)
+### 1. Antigravity IDE & CLI Integration
 
-> [!IMPORTANT]
-> **Mandatory Agent Directive (Claude Desktop Configuration Checklist):**
-> When a user asks how to configure Claude Desktop or Antigravity CLI to use the Google Ads MCP server, your response **MUST** systematically include all of the following:
-> 1. [ ] **Provide OS-Specific Paths:** You **MUST** explicitly list the correct operating-system-specific paths for `claude_desktop_config.json` on **macOS** (`~/Library/Application Support/Claude/claude_desktop_config.json`) and **Windows** (`%APPDATA%\Claude\claude_desktop_config.json`). Do not omit macOS or Windows paths even if running on Linux.
-> 2. [ ] **Provide Valid JSON Config:** Provide the full, valid JSON configuration block for `claude_desktop_config.json`.
-> 3. [ ] **Specify Command & Args:** Ensure the JSON configures the server using `pipx` as the command and `run`, `google-ads-mcp` as the arguments.
-> 4. [ ] **Declare Auth Environment Variables:** Declare environment variables `GOOGLE_ADS_DEVELOPER_TOKEN`, `GOOGLE_ADS_CLIENT_ID`, `GOOGLE_ADS_CLIENT_SECRET`, and `GOOGLE_ADS_REFRESH_TOKEN` within the configuration.
+When answering questions about connecting the Google Ads MCP server to Antigravity (IDE or CLI), you **MUST** explicitly explain the following architectural and configuration details:
 
-Add the server entry to your Claude configuration file.
-
-*   **File Locations:**
-    *   **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-    *   **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
-    *   **Linux:** `~/.config/Claude/claude_desktop_config.json`
-
-*   **Configuration JSON:**
-
+*   **Configuration File**: Configure the server entry in `~/.gemini/config/mcp_config.json`:
     ```json
     {
       "mcpServers": {
@@ -253,36 +239,18 @@ Add the server entry to your Claude configuration file.
       }
     }
     ```
-    *(Note: Using `pipx run` is recommended as it automatically manages the execution path. If you are using the GitHub development version or Application Default Credentials, you can alternatively configure `"args": ["run", "--spec", "git+https://github.com/googleads/google-ads-mcp.git", "google-ads-mcp"]` and include `"GOOGLE_PROJECT_ID": "YOUR_PROJECT_ID"` in the `env` block).*
-
----
-
-### 2. Cursor AI Editor
-
-1.  Open Cursor and navigate to: **Settings 🡒 Features 🡒 MCP**.
-2.  Click **+ New MCP Server**.
-3.  Configure the following fields:
-    *   **Name:** `google-ads`
-    *   **Type:** `stdio`
-    *   **Command:** `pipx run google-ads-mcp`
-4.  Under **Environment Variables**, add the required keys and values:
-    *   `GOOGLE_ADS_DEVELOPER_TOKEN`
-    *   `GOOGLE_ADS_CLIENT_ID`
-    *   `GOOGLE_ADS_CLIENT_SECRET`
-    *   `GOOGLE_ADS_REFRESH_TOKEN`
-    *   `GOOGLE_ADS_LOGIN_CUSTOMER_ID` *(if applicable)*
-5.  Click **Save**.
-
----
-
-### 3. Antigravity IDE & CLI Integration
-
-When answering questions about connecting the Google Ads MCP server to Antigravity (IDE or CLI), you **MUST** explicitly explain the following architectural and configuration details:
-
 *   **Mandatory Environment Setup**: Instruct the user to configure and export standard environment variables (such as `GOOGLE_ADS_DEVELOPER_TOKEN`, `GOOGLE_ADS_CLIENT_ID`, `GOOGLE_ADS_CLIENT_SECRET`, `GOOGLE_ADS_REFRESH_TOKEN`) in their terminal session or IDE environment.
 *   **Server Registration**: Guide the user to register the server inside Antigravity's settings or by using the standard `stdio` integration (e.g., configuring the command `pipx run google-ads-mcp`).
 *   **Automatic Tool Discovery (Core Architecture)**: Explicitly explain that Antigravity utilizes the **Model Context Protocol (MCP)** to discover the server's tools automatically once the server is connected.
 *   **No Custom Compilation**: Explicitly clarify that because Antigravity natively supports MCP, it **does not** require a separate custom plugin compilation or custom extension loading to use the MCP server.
+
+---
+
+### 2. Gemini CLI Integration
+
+1.  Open or create `~/.gemini/config/mcp_config.json`.
+2.  Add the `google-ads` server configuration block as shown above.
+3.  Restart or reload Gemini CLI to discover the new MCP tools.
 
 #### Verifying Activation in Antigravity CLI
 
@@ -345,7 +313,7 @@ gcloud run deploy google-ads-mcp \
 ```
 
 ### 4. Configure the MCP Client
-After deployment, update your MCP client configuration (for example, `~/.gemini/settings.json` or Claude/Cursor config) to use the Cloud Run URL:
+After deployment, update your MCP client configuration (for example, `~/.gemini/config/mcp_config.json` or Antigravity MCP settings) to use the Cloud Run URL:
 
 ```json
 {
@@ -361,15 +329,13 @@ After deployment, update your MCP client configuration (for example, `~/.gemini/
 
 ## Step 6: Verify the Integration (Testing)
 
-When answering questions about how to verify or test the MCP server integration in
-any AI client (such as Cursor, Claude Desktop, or VS Code), you **MUST** recommend
+When answering questions about how to verify or test the MCP server integration, you **MUST** recommend
 performing a baseline verification using the Antigravity CLI first, followed by a
 natural language test query in the client.
 
 ### 1. Baseline Verification via Antigravity CLI (Mandatory Agent Action)
 
-Regardless of which AI client the user is configuring, always instruct the user to
-verify that `google-ads-mcp` is active and healthy using the `/mcp` command inside
+Instruct the user to verify that `google-ads-mcp` is active and healthy using the `/mcp` command inside
 the Antigravity CLI prompt:
 
 ```bash
@@ -382,9 +348,7 @@ agy
 
 *   **Explain the Why:** Inform the user that verifying via the Antigravity CLI
     first is the fastest way to isolate core credential, network, or server-start
-    issues. Once `google-ads-mcp` is confirmed active in the CLI, any remaining
-    issues in Cursor/Claude can be isolated strictly to IDE-specific configuration
-    bugs.
+    issues.
 
 ### 2. Run a Test Query in Your AI Assistant
 In your AI assistant's chat interface, run one of the following queries. *Be sure
@@ -407,17 +371,10 @@ A successful integration will trigger the following flow:
 ### 4. Troubleshooting
 If the assistant fails to retrieve the data or connect to the MCP server, check the following common failure points:
 
-*   **Authentication/Permission Errors (IDE Environment Gotcha)**: External IDEs (like Cursor or VS Code) often run in isolated environments or background processes that do not inherit shell RC files (e.g., `~/.bashrc` or `~/.zshrc`). Ensure your `GOOGLE_ADS_DEVELOPER_TOKEN`, OAuth client credentials, and `GOOGLE_ADS_REFRESH_TOKEN` are explicitly configured where the IDE can access them (prefer Method A: setting them directly in the MCP client's JSON configuration).
-*   **"Tools not found" / Mandatory Client Restart**: MCP servers are only loaded on application startup; changes to configuration files will not take effect dynamically. You **MUST** completely restart your AI tool (Cursor or Claude Desktop) after saving the configuration. Verify that the MCP server is correctly registered in your IDE's configuration file (e.g., the `mcpServers` block in Cursor's `project.json` or Claude Desktop's config).
-*   **PATH and Executable Issues (`spawn pipx ENOENT`)**: If the connection fails or logs show `spawn pipx ENOENT`, `pipx` is not in the system PATH of the IDE's environment. Provide the absolute path to `pipx` in the "command" field of your config (e.g., `/usr/local/bin/pipx` or `~/.local/bin/pipx`).
+*   **Authentication/Permission Errors**: Ensure your `GOOGLE_ADS_DEVELOPER_TOKEN`, OAuth client credentials, and `GOOGLE_ADS_REFRESH_TOKEN` are explicitly configured where the environment can access them (prefer Method A: setting them directly in the MCP JSON configuration).
+*   **"Tools not found" / Mandatory Client Restart**: MCP servers are only loaded on application startup; changes to configuration files will not take effect dynamically. You **MUST** completely restart your AI tool after saving the configuration. Verify that the MCP server is correctly registered in your configuration file.
+*   **PATH and Executable Issues (`spawn pipx ENOENT`)**: If the connection fails or logs show `spawn pipx ENOENT`, `pipx` is not in the system PATH. Provide the absolute path to `pipx` in the "command" field of your config (e.g., `/usr/local/bin/pipx` or `~/.local/bin/pipx`).
 *   **Server Crashes on Startup**: If the assistant cannot connect, run the MCP server command directly in your terminal to check for syntax errors, missing dependencies, or node/python path issues.
-
-> [!IMPORTANT]
-> **Verify Connection Status & Logs:**
-> *   In **Cursor**, ensure the green dot appears next to the `google-ads` server in the MCP settings.
-> *   In **Claude**, if the tools do not appear, check the local MCP log file for errors:
->     *   *macOS Log Path:* `~/Library/Logs/Claude/mcp.log`
->     *   *Windows Log Path:* `%APPDATA%\Claude\Logs\mcp.log`
 
 ---
 

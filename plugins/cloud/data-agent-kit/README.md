@@ -21,11 +21,7 @@ agy plugin install https://github.com/google/skills/plugins/cloud/data-agent-kit
 ```
 
 > [!NOTE]
-> Submodules are used here because Antigravity CLI does not yet support a marketplace manifest (as Claude Code
-> and Codex do). Once marketplace support lands for `agy`, these submodules can be retired in favor of the
-> shared manifest.
-
-For Claude Code and Codex, install via the marketplace manifest at the root of this repository instead.
+> Submodules are used here to provide direct installation links for each specialized data plugin via Antigravity CLI (`agy`).
 
 ## Included Plugins
 

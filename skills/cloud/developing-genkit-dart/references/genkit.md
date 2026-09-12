@@ -308,7 +308,7 @@ void example() {
     metadata: {'foo': 'bar'},
   );
 
-  // Model reasoning (e.g. for Claude's "thinking" models)
+  // Model reasoning (e.g. for thinking/reasoning models)
   final reasoningPart = ReasoningPart(
     reasoning: 'thinking...',
     metadata: {'foo': 'bar'},

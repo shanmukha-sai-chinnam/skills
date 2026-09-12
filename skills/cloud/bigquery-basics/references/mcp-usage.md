@@ -42,4 +42,4 @@ more on connecting BigQuery to your tools, see
 for details. For additional specialized skills and advanced analytics workflows,
 install the
 [BigQuery Data Analytics extension](https://github.com/gemini-cli-extensions/bigquery-data-analytics)
-for the Gemini CLI or plugin for Claude Code and Codex.
+for Gemini CLI and Antigravity.

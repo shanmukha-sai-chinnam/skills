@@ -11,7 +11,6 @@ go get github.com/genkit-ai/genkit/go@latest
 Provider plugins ship in the same module under `plugins/`, so they don't need to be fetched separately. Just import the ones you want and run `go mod tidy` afterwards. The available plugins include:
 
 - `plugins/googlegenai` for Google AI and Vertex AI
-- `plugins/anthropic` for Anthropic Claude
 - `plugins/compat_oai` for OpenAI-compatible APIs (OpenAI, Groq, xAI, etc.)
 - `plugins/ollama` for local Ollama models
 - `plugins/middleware` for the built-in middleware bundle (`Retry`, `Fallback`, `ToolApproval`, `Filesystem`, `Skills`)

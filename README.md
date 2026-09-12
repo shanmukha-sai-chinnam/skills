@@ -190,8 +190,6 @@ This repo also bundles Google product plugins (Skills + MCP servers) for agent h
 
 | Agent harness | Install |
 | :--- | :--- |
-| **Claude Code** | `claude plugin marketplace add google/skills`, then `claude plugin install <plugin>@google-plugins` |
-| **Codex** | `codex plugin marketplace add google/skills`, then install from the `/plugins` browser |
 | **Antigravity CLI** | `agy plugin install https://github.com/google/skills/<plugin-path>` |
 
 ## Support

@@ -45,37 +45,6 @@ Model names follow the format `vertexai/<model-id>`. Same model IDs as Google AI
 ai.WithModelName("vertexai/gemini-flash-latest")
 ```
 
-## Anthropic (Claude)
-
-```go
-import (
-	"github.com/anthropics/anthropic-sdk-go"          // Anthropic SDK types
-	ant "github.com/genkit-ai/genkit/go/plugins/anthropic" // Genkit plugin
-)
-
-g := genkit.Init(ctx, genkit.WithPlugins(&ant.Anthropic{}))
-```
-
-**Env var:** `ANTHROPIC_API_KEY`
-
-Model names follow the format `anthropic/<model-id>`. Look up the latest model IDs at https://docs.anthropic.com/en/docs/about-claude/models.
-
-```go
-// By name
-ai.WithModelName("anthropic/claude-sonnet-4-6")
-
-// With provider-specific config (uses Anthropic SDK types via ai.WithConfig)
-ai.WithConfig(&anthropic.MessageNewParams{
-	Temperature: anthropic.Float(1.0),
-	MaxTokens:   *anthropic.IntPtr(2000),
-	Thinking: anthropic.ThinkingConfigParamUnion{
-		OfEnabled: &anthropic.ThinkingConfigEnabledParam{
-			BudgetTokens: *anthropic.IntPtr(1024),
-		},
-	},
-})
-```
-
 ## OpenAI-Compatible (compat_oai)
 
 Works with any OpenAI-compatible API: OpenAI, DeepSeek, xAI, etc.
@@ -102,32 +71,20 @@ Use with:
 ai.WithModel(model)
 ```
 
-## Ollama (Local Models)
+## Ollama
 
 ```go
 import "github.com/genkit-ai/genkit/go/plugins/ollama"
 
-ollamaPlugin := &ollama.Ollama{
-	ServerAddress: "http://localhost:11434",
-	Timeout:       60, // seconds
-}
-g := genkit.Init(ctx, genkit.WithPlugins(ollamaPlugin))
+g := genkit.Init(ctx, genkit.WithPlugins(&ollama.Ollama{
+	ServerAddress: "http://localhost:11434", // optional, this is the default
+}))
 ```
 
-Define models explicitly:
+Define models:
 
 ```go
-model := ollamaPlugin.DefineModel(g,
-	ollama.ModelDefinition{
-		Name: "llama3.1",
-		Type: "chat", // or "generate"
-	},
-	nil, // optional *ModelOptions
-)
-```
-
-Use with:
-```go
+model := ollama.DefineModel(g, "llama3.2", ollama.ModelOptions{})
 ai.WithModel(model)
 ```
 
@@ -139,7 +96,7 @@ Register multiple plugins in a single Genkit instance:
 g := genkit.Init(ctx,
 	genkit.WithPlugins(
 		&googlegenai.GoogleAI{},
-		&ant.Anthropic{},
+		&vertexai.VertexAI{},
 	),
 	genkit.WithDefaultModel("googleai/gemini-flash-latest"),
 )
@@ -147,11 +104,11 @@ g := genkit.Init(ctx,
 // Use different models per call
 text1, _ := genkit.GenerateText(ctx, g,
 	ai.WithModelName("googleai/gemini-flash-latest"),
-	ai.WithPrompt("Hello from Gemini"),
+	ai.WithPrompt("Hello from Gemini Google AI"),
 )
 
 text2, _ := genkit.GenerateText(ctx, g,
-	ai.WithModelName("anthropic/claude-sonnet-4-6"),
-	ai.WithPrompt("Hello from Claude"),
+	ai.WithModelName("vertexai/gemini-flash-latest"),
+	ai.WithPrompt("Hello from Gemini Vertex AI"),
 )
 ```

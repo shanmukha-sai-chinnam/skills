@@ -21,7 +21,7 @@ The Policy Troubleshooter remote MCP server is available at the following URL:
 https://policytroubleshooter.googleapis.com/mcp
 ```
 
-To connect an MCP client (such as Claude Desktop, Gemini CLI, or custom agents)
+To connect an MCP client (such as Antigravity, Gemini CLI, or custom agents)
 to the Policy Troubleshooter remote MCP server, configure your client to connect
 via Server-Sent Events (SSE) or HTTP to the server URL, passing an OAuth 2.0
 Bearer token in the `Authorization` header.
@@ -32,7 +32,7 @@ To connect to the Policy Troubleshooter MCP server, see
 ### Example: Client Configuration
 
 Add the following configuration to your client configuration (for example,
-`claude_desktop_config.json`). This configuration uses the `gcloud` CLI to
+`~/.gemini/config/mcp_config.json`). This configuration uses the `gcloud` CLI to
 dynamically fetch a valid access token:
 
 ```json
