@@ -1,6 +1,6 @@
 # Google Agent Skills: Agent Operational Guide
 
-Universal guidelines for coding agents (Google Antigravity, Claude Code, Codex, Cursor, and Herdr-managed agents) utilizing skills from this repository.
+Universal guidelines for coding agents (Google Antigravity CLI and Gemini CLI) utilizing skills from this repository.
 
 ---
 
