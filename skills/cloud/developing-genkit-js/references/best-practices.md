@@ -4,12 +4,9 @@
 -   **Organized Layout**: Keep flows and tools in separate directories (e.g., `src/flows`, `src/tools`) to maintain a clean codebase.
 -   **Index Exports**: Use `index.ts` files to export flows and tools, making it easier to import them into your main configuration.
 
-## Model Selection (Google AI)
--   **Gemini Models**: If using Google AI, ALWAYS use the latest alias (`gemini-flash-latest` or `gemini-pro-latest`).
+## Model Selection (Gemini)
+-   **Gemini Models**: Use the latest alias or pinned versions (`gemini-flash-latest`, `gemini-pro-latest`, or `gemini-2.5-flash`).
     -   **Recommended**: `gemini-flash-latest` for general use, `gemini-pro-latest` for complex tasks.
-
-## Model Selection (Other Providers)
--   **Consult Documentation**: For other providers (OpenAI, Anthropic, etc.), refer to the provider's official documentation for the latest recommended model versions.
 
 ## Schema Definition
 -   **Use `z` from `genkit`**: Always import `z` from the `genkit` package to ensure compatibility.

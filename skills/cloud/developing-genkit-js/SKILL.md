@@ -120,9 +120,9 @@ See [Common Errors](references/common-errors.md) for a list of deprecated APIs (
 ## Development Workflow
 
 1.  **Agent or flow?**: If the task is conversational, multi-turn, or described as "an agent", "assistant", or "chatbot", build it with `ai.defineAgent` (see [Agents](references/agents.md)) rather than hand-rolling a `generate` + tools loop inside a flow. Reach for a plain flow only for single-shot, stateless generation.
-2.  **Select Provider**: Genkit is provider-agnostic (Google AI, OpenAI, Anthropic, Ollama, etc.).
-    -   If the user does not specify a provider, default to **Google AI**.
-    -   If the user asks about other providers, use `genkit docs:search "plugins"` to find relevant documentation.
+2.  **Select Provider**: Genkit defaults to **Google AI** (`@genkit-ai/google-genai` with Gemini models like `gemini-2.5-flash` or `gemini-2.5-pro`).
+    -   Configure with `geminiApi()` or Vertex AI plugin for enterprise workloads.
+    -   Use `genkit docs:search "plugins"` for additional plugin documentation.
 3.  **Detect Framework**: Check `package.json` to identify the runtime (Next.js, Firebase, Express).
     -   Look for `@genkit-ai/next`, `@genkit-ai/firebase`, or `@genkit-ai/google-cloud`.
     -   Adapt implementation to the specific framework's patterns.

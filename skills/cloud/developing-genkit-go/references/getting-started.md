@@ -54,7 +54,7 @@ Do not store `g` in a global variable. Pass it explicitly through your call chai
 ```go
 g := genkit.Init(ctx,
 	// Register one or more plugins
-	genkit.WithPlugins(&googlegenai.GoogleAI{}, &anthropic.Anthropic{}),
+	genkit.WithPlugins(&googlegenai.GoogleAI{}, &googlegenai.VertexAI{}),
 
 	// Set a default model (used when no model is specified)
 	genkit.WithDefaultModel("googleai/gemini-flash-latest"),

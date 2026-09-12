@@ -49,7 +49,7 @@ dependencies = [
 ## Plugins
 
 Packages are **`genkit-*`** on PyPI, e.g. `genkit-google-genai`, `genkit-vertexai`,
-`genkit-anthropic`, `genkit-fastapi`, `genkit-middleware`, `genkit-evaluators`.
+`genkit-fastapi`, `genkit-middleware`, `genkit-evaluators`.
 Install with `uv add genkit-<name>`.
 
 Import modules use underscores (e.g. `genkit_google_genai`, `genkit_middleware`).
