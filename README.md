@@ -5,8 +5,14 @@
 This repository contains [Agent Skills](https://agentskills.io/home) for Google
 products and technologies, including [Google Cloud](https://cloud.google.com).
 
+[Google Antigravity Guide](./ANTIGRAVITY.md) | [Contributing](./CONTRIBUTING.md)
+
 ## Installation
 
+### Google Antigravity (AGY)
+See the full **[Google Antigravity Integration Guide](./ANTIGRAVITY.md)** for global, project-level, and declarative NixOS flake setup.
+
+### Universal CLI / Agent Harnesses
 ```bash
 npx skills add google/skills
 ```
