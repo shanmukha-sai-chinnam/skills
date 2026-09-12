@@ -281,24 +281,37 @@ def cmd_sync():
     except Exception as e:
         print(f"  {YELLOW}Superpowers sync check: {e}{RESET}")
 
-    # 3. Sync Karpathy
+    # 2. Sync Karpathy
     try:
-        diff_k = run_cmd(["git", "diff", "--name-only", "HEAD..upstream-karpathy/main"]).stdout.split()
-        if any("karpathy-guidelines" in f for f in diff_k):
-            print("  Syncing Karpathy guidelines updates...")
-            # Checkout specific skill files into dest
-            pass
-        print(f"  {GREEN}✓ Karpathy guidelines up-to-date.{RESET}")
+        diff_k = run_cmd(["git", "diff", "--name-only", "HEAD..upstream-karpathy/main", "--", "skills/karpathy-guidelines/"]).stdout.split()
+        if diff_k:
+            print(f"  Syncing {len(diff_k)} changed Karpathy guidelines files...")
+            for f in diff_k:
+                src_content = run_cmd(["git", "show", f"upstream-karpathy/main:{f}"]).stdout
+                sub_path = f[len("skills/karpathy-guidelines/"):] if f.startswith("skills/karpathy-guidelines/") else Path(f).name
+                dest_file = REPO_ROOT / "skills" / "karpathy" / "karpathy-guidelines" / sub_path
+                dest_file.parent.mkdir(parents=True, exist_ok=True)
+                dest_file.write_text(src_content, encoding="utf-8")
+            print(f"  {GREEN}✓ Karpathy guidelines synced.{RESET}")
+        else:
+            print(f"  {GREEN}✓ Karpathy guidelines already up-to-date.{RESET}")
     except Exception as e:
         print(f"  {YELLOW}Karpathy sync check: {e}{RESET}")
 
-    # 4. Sync ADHD
+    # 3. Sync ADHD
     try:
-        diff_adhd = run_cmd(["git", "diff", "--name-only", "HEAD..upstream-adhd/main"]).stdout.split()
-        if any("i-have-adhd" in f for f in diff_adhd):
-            print("  Syncing i-have-adhd updates...")
-            pass
-        print(f"  {GREEN}✓ i-have-adhd up-to-date.{RESET}")
+        diff_adhd = run_cmd(["git", "diff", "--name-only", "HEAD..upstream-adhd/main", "--", "skills/i-have-adhd/"]).stdout.split()
+        if diff_adhd:
+            print(f"  Syncing {len(diff_adhd)} changed i-have-adhd files...")
+            for f in diff_adhd:
+                src_content = run_cmd(["git", "show", f"upstream-adhd/main:{f}"]).stdout
+                sub_path = f[len("skills/i-have-adhd/"):] if f.startswith("skills/i-have-adhd/") else Path(f).name
+                dest_file = REPO_ROOT / "skills" / "adhd" / "i-have-adhd" / sub_path
+                dest_file.parent.mkdir(parents=True, exist_ok=True)
+                dest_file.write_text(src_content, encoding="utf-8")
+            print(f"  {GREEN}✓ i-have-adhd synced.{RESET}")
+        else:
+            print(f"  {GREEN}✓ i-have-adhd already up-to-date.{RESET}")
     except Exception as e:
         print(f"  {YELLOW}ADHD sync check: {e}{RESET}")
 
