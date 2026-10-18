@@ -52,6 +52,13 @@ UPSTREAMS = {
         "source_dir": "skills/i-have-adhd",
         "dest_dir": "skills/adhd/i-have-adhd",
     },
+    "anatomy": {
+        "remote": "upstream-anatomy",
+        "url": "https://github.com/wheresryan22/anatomy.git",
+        "branch": "main",
+        "source_dir": ".",
+        "dest_dir": "skills/anatomy/anatomy",
+    },
 }
 
 FOREIGN_TERMS = [
@@ -314,6 +321,31 @@ def cmd_sync():
             print(f"  {GREEN}✓ i-have-adhd already up-to-date.{RESET}")
     except Exception as e:
         print(f"  {YELLOW}ADHD sync check: {e}{RESET}")
+
+    # 4. Sync Anatomy
+    try:
+        upstream_files_anatomy = run_cmd(["git", "ls-tree", "-r", "--name-only", "upstream-anatomy/main"]).stdout.split()
+        synced_count_anatomy = 0
+        for f in upstream_files_anatomy:
+            if f.startswith(".git") or f.startswith(".github"):
+                continue
+            dest_file = REPO_ROOT / "skills" / "anatomy" / "anatomy" / f
+            src_bytes = subprocess.run(
+                ["git", "show", f"upstream-anatomy/main:{f}"],
+                cwd=REPO_ROOT,
+                check=True,
+                stdout=subprocess.PIPE,
+            ).stdout
+            if not dest_file.exists() or dest_file.read_bytes() != src_bytes:
+                dest_file.parent.mkdir(parents=True, exist_ok=True)
+                dest_file.write_bytes(src_bytes)
+                synced_count_anatomy += 1
+        if synced_count_anatomy > 0:
+            print(f"  {GREEN}✓ Anatomy synced ({synced_count_anatomy} files updated).{RESET}")
+        else:
+            print(f"  {GREEN}✓ Anatomy already up-to-date.{RESET}")
+    except Exception as e:
+        print(f"  {YELLOW}Anatomy sync check: {e}{RESET}")
 
     # Run rewrite and audit
     cmd_rewrite()
